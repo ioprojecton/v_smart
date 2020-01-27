@@ -29,32 +29,24 @@ void listener(char a[]) {
   if (data_log_eeprom && *a) { //a[0]
 
     if (strlen(a) > 20) {
-      char b[strlen(a)+1];
+      char b[strlen(a) + 1];
       memset(b, '\0', sizeof(b));
 
-      for (unsigned char i = 0, c = 0, flag = 0; i < strlen(a); i++) {
+      char *p = a;
 
-        if (a[i] == ' ' && a[i + 1] == ' ') continue;
+      while (*p++ == ' ');
+      --p;
 
-        else if (a[i] == ' ' && a[i + 1] != ' ' && !flag) {
-          flag = 1;
-          continue;
-        }
-        else b[c++] = a[i];
+      for (char *c = b; p < a + (strlen(a)) ;) {
+        if (*p == ' ' && *(p + 1) == ' ') p++;
+        else *c++ = *p++;
       }
 
-      for (unsigned char i = 0; i <= strlen(b); i++) {
-        EEPROM.put(eeprom_address, b[i]);
-        eeprom_address += sizeof(char);
-      }
+      for (char *i = b; i <= b + strlen(b); EEPROM.put(eeprom_address, *i++)) eeprom_address += sizeof(char);
+
     }
-    else {
-      for (unsigned char i = 0; i <= strlen(a); i++) {
-        EEPROM.put(eeprom_address, a[i]);
-        eeprom_address += sizeof(char);
-      }
-    }
+    else
+      for (char *i = a; i <= a + strlen(a); EEPROM.put(eeprom_address, *i++)) eeprom_address += sizeof(char);
+
   }
-
-
 }

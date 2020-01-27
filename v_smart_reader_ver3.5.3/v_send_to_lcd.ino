@@ -5,22 +5,21 @@ void send_to_lcd(const char a[], unsigned char col, unsigned char row, bool opti
   if (strlen(a) > 20) {
     char b[strlen(a) + 1];
     memset(b, '\0', sizeof(b));
-
-    for (unsigned char i = 0, c = 0, flag = 0; i < strlen(a); i++) {
-
-      if (a[i] == ' ' && a[i + 1] == ' ') continue;
-
-      else if (a[i] == ' ' && a[i + 1] != ' ' && !flag) {
-        flag = 1;
-        continue;
-      }
-      else b[c++] = a[i];
+    char *p = a;
+ 
+    while (*p++ == ' ');
+  
+    --p; // may need to deal with this if will give a problem
+    
+    for (char *c = b; p < a + (strlen(a)) ;) {
+      if (*p == ' ' && *(p + 1) == ' ') p++;
+      else *c++ = *p++;
     }
 
-    for (unsigned char *i = b; i < b + (unsigned char)strlen(b); lcd.setCursor(col++, row), lcd.write(*i++));
+    for (char *i = b; i < b + strlen(b); lcd.setCursor(col++, row), lcd.write(*i++));
     return;
   }
-  for (unsigned char *i = a; i < a + (unsigned char)strlen(a); lcd.setCursor(col++, row), lcd.write(*i++));
+  for (char *i = a; i < a + strlen(a); lcd.setCursor(col++, row), lcd.write(*i++));
 }
 
 
