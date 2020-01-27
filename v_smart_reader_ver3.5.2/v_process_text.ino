@@ -18,12 +18,12 @@ unsigned char process_text(char a[]) {
     return TOTAL_CYCLES;
   }
 
-  else if (strstr(a, "Midmark - v1.0.0 ") != NULL) { // must be checked with new midmark
+  else if (strstr(a, "Midmark M11") != NULL) { // must be checked with new midmark
     m11_new = true;
     return BEGIN;
   }
   
-  else if (strstr(a, "BEGIN") != NULL || strstr(a, "Midmark") != NULL) {
+  else if (strstr(a, "BEGIN") != NULL || strstr(a, "Midmark M9") != NULL) {
     _complete = false;
     return BEGIN;
   }
@@ -34,7 +34,7 @@ unsigned char process_text(char a[]) {
   else if (strstr(a, "COMPLETE") != NULL)
     return CYCLE_COMPLETE;
 
-  else if (strstr(a, "STERILIZING") != NULL && strstr(a, "Drying Complete") == NULL) {
+  else if (strstr(a, "STERILIZING") != NULL && strstr(a, "STERILIZING:") == NULL) {
     eeprom_address = 0;
     data_log_eeprom = true;
     return STERILIZING;

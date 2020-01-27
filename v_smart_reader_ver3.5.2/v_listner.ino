@@ -19,7 +19,7 @@ void listener(char a[]) {
 
   if (flag) a[--i] = '\0';
 
-  if (strstr(a, "VENTING") != NULL)
+  if (strstr(a, "VENTING CHAMBER") != NULL)
   {
     EEPROM.put(eeprom_address, 255);
     eeprom_address = 0;
@@ -45,12 +45,15 @@ void listener(char a[]) {
 
       for (unsigned char i = 0; i <= strlen(b); i++) {
         EEPROM.put(eeprom_address, b[i]);
+        //_delay(5);
         eeprom_address += sizeof(char);
+        
       }
     }
     else {
       for (unsigned char i = 0; i <= strlen(a); i++) {
         EEPROM.put(eeprom_address, a[i]);
+        //_delay(5);
         eeprom_address += sizeof(char);
       }
     }

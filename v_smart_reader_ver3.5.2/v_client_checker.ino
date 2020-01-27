@@ -90,7 +90,7 @@ bool client_checker(void) {
       break;
 
     case BEGIN:
-      if (m11_new) break;
+      if (!m11_new) {
       char date_time[21];
       memset(date_time, '\0', sizeof(date_time));
       strcat(date_time, _month);
@@ -110,7 +110,7 @@ bool client_checker(void) {
       file.println("   Date        Time");
       file.println(date_time);
       file.println("------------------------");
-      file.close();
+      file.close();}
       send_to_lcd(blank, 0, 1, false);
       send_to_lcd(a, 0, 1, false);
       break;
