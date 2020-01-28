@@ -44,19 +44,17 @@ void listener(char a[]) {
         else *c++ = *p++;
       }
 
-      for (char *i = b; i <= b + strlen(b); *i++) {
+      for (char *i = b; i <= b + strlen(b); i++) {
         EEPROM.put(eeprom_address, *i);
         eeprom_address += sizeof(char);
-
       }
     }
+    
     else {
-      for (char *i = a; i <= a + strlen(a); *i++) {
+      for (char *i = a; i <= a + strlen(a); i++) {
         EEPROM.put(eeprom_address, *i);
         eeprom_address += sizeof(char);
       }
     }
   }
-
-
 }

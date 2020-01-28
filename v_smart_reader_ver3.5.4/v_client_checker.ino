@@ -33,19 +33,19 @@ bool client_checker(void) {
   listener(a);
 
   while (!check_sd_card());
-  if (!sd.chdir()) send_to_lcd("Access to / failed",0,1,false);
+  if (!sd.chdir()) send_to_lcd("Access to / failed", 0, 1, false);
   char tmp_year[5];
   memset (tmp_year, '\0', sizeof(tmp_year));
   strcat(tmp_year, "20");
   strcat(tmp_year, _year);
   if (!sd.exists(tmp_year)) {
-    if (!sd.mkdir(tmp_year)) send_to_lcd("Can`t make directory",0,1,false);
+    if (!sd.mkdir(tmp_year)) send_to_lcd("Can`t make directory", 0, 1, false);
   }//must be terminated
 
   sd.chdir(tmp_year);
 
   if (!sd.exists(_month)) {
-    if (!sd.mkdir(_month)) send_to_lcd("Can`t make directory",0,1,false);
+    if (!sd.mkdir(_month)) send_to_lcd("Can`t make directory", 0, 1, false);
   }
 
   sd.chdir(_month);
@@ -60,11 +60,11 @@ bool client_checker(void) {
       itoa(cycle_number, tmp_cycle_number, 10);
       strcat(tmp_cycle_number, ".txt");
 
-      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file",0,1,false);
+      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file", 0, 1, false);
       file.print("\r\n");
       file.println(a);
 
-      if (!file.rename(tmp_cycle_number)) send_to_lcd("Can`t rename file",0,1,false);
+      if (!file.rename(tmp_cycle_number)) send_to_lcd("Can`t rename file", 0, 1, false);
       file.close();
       sd.remove("tmp.txt");
       my_serial_flush();
@@ -81,7 +81,7 @@ bool client_checker(void) {
       lcd.print(cycle_number_lcd);
       lcd.setCursor(0, 1);
       lcd.print("  Manually Stopped  ");
-      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file",0,1,false);
+      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file", 0, 1, false);
       file.print("\r\n");
       file.println(a);
       file.close();
@@ -90,7 +90,6 @@ bool client_checker(void) {
       break;
 
     case BEGIN:
-      if (!m11_new) {
       char date_time[21];
       memset(date_time, '\0', sizeof(date_time));
       strcat(date_time, _month);
@@ -103,14 +102,16 @@ bool client_checker(void) {
       strcat(date_time, ":");
       strcat(date_time, _minute);
 
-      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file",0,1,false);
+      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file", 0, 1, false);
       file.println(a);
       file.print("\r\n");
-      file.println("------------------------");
-      file.println("   Date        Time");
-      file.println(date_time);
-      file.println("------------------------");
-      file.close();}
+      if (!m11_new) {
+        file.println("------------------------");
+        file.println("   Date        Time");
+        file.println(date_time);
+        file.println("------------------------");
+      }
+      file.close();
       send_to_lcd(blank, 0, 1, false);
       send_to_lcd(a, 0, 1, false);
       break;
@@ -123,7 +124,7 @@ bool client_checker(void) {
       send_to_lcd(blank, 0, 1, false);
       send_to_lcd(a, 0, 1, false);
 
-      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file",0,1,false);
+      if (!file.open("tmp.txt", O_WRONLY | O_CREAT | O_APPEND)) send_to_lcd("Can`t make file", 0, 1, false);
       file.print("\r\n");
       file.println(a);
       file.close();
