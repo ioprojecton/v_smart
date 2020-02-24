@@ -13,7 +13,7 @@ unsigned char process_text(char a[]) {
   else if (strstr(a, "IPa"))
     return GOT_IP;
 
-  else if (strstr(a, "Midmark M11")) { // must be checked with new midmark
+  else if (strstr(a, "Midmark M11 - v1.0.0")) { // must be checked with new midmark
     m11_new = true;
     return BEGIN;
   }

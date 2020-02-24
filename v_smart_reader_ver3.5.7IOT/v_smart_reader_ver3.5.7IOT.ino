@@ -11,7 +11,7 @@
 
 #include <util/delay.h>
 
-#define DEBUG 1
+#define DEBUG 0
 #define _sizeof(x) (unsigned int)(sizeof(x)/sizeof(x[0]))
 #define INPUT_BUFFER_SIZE 64
 #define TOTAL_CYCLES 1
