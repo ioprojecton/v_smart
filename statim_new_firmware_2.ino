@@ -26,11 +26,14 @@ void setup()
   DDRB |= (1 << DDB3) | (1 << DDB4);
   PORTB &= ~(1 << PB5);
 
-  Serial.begin(38400);
+  UBRR0L = 25;
+  UCSR0B = (1 << TXEN0);
 }
 
 void loop()
 {
+
+
   NOT_BUSY();
 
   READY_TO_RECEIVE();
@@ -45,9 +48,13 @@ void loop()
 
   for (unsigned char _position = 0, b = DataPin1; _position < 7 && b <= Datapin8; Char |= (digitalRead(b++) << _position++));
 
-  if ((millis() - current_time) > 300) Serial.write('\n');
+  if ((millis() - current_time) > 300) {
+    while (!( UCSR0A & (1 << UDRE0)));
+    UDR0 = '\n';
+  }
 
-  Serial.write(Char);
+  while (!( UCSR0A & (1 << UDRE0)));
+  UDR0 = Char;
 
   NOT_READY_TO_RECEIVE();
 
