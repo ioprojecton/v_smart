@@ -27,7 +27,8 @@ void setup()
 
   UBRR0L = 7;
   UCSR0A|=(1<<U2X0);
-  UCSR0B = (1 << TXEN0);
+  UCSR0B = (1 << TXEN0)|(1<<UDRIE0);
+  sei();
 }
 
 void loop()
@@ -49,14 +50,15 @@ void loop()
   for (unsigned char _position = 0, b = DataPin1; _position < 7 && b <= Datapin8; Char |= (digitalRead(b++) << _position++));
 
   if ((millis() - current_time) > 300) {
-    while (!( UCSR0A & (1 << UDRE0)));
     UDR0 = '\n';
   }
 
-  while (!( UCSR0A & (1 << UDRE0)));
   UDR0 = Char;
 
   NOT_READY_TO_RECEIVE();
 
   _delay_us(100);
+}
+
+ISR(USART_UDRE_VECT){
 }
