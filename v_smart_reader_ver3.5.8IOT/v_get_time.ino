@@ -2,11 +2,11 @@ void get_time(struct _time *my_time) {
 #define DS1307_ADDRESS 0x68
 
   Wire.begin();
-  
+
   //#ifdef DS3232
   //Wire.setClock(400000UL);
   //#endif
-  
+
   Wire.beginTransmission(DS1307_ADDRESS);
 
   Wire.write(byte(0));
@@ -55,15 +55,9 @@ void get_time(struct _time *my_time) {
 
   unsigned char y = bcdToDec(Wire.read());
 
-  if (((m == 3 && md >= 14 - (1 + ((y + 2000) * 5 >> 2)) % 7) || (m > 3 && m < 11) || (m == 11 && md < 7 - (1 + (5 * (y + 2000) >> 2)) % 7)) && !_dst) {
-    EEPROM.put(EEPROM_DST, true);
-    ++hr;
-  }
+  if ((m == 3 && md >= 14 - (1 + ((y + 2000) * 5 >> 2)) % 7) || (m > 3 && m < 11) || (m == 11 && md < 7 - (1 + (5 * (y + 2000) >> 2)) % 7)) ++hr;
 
-  if (((m == 11 && md >= 7 - (1 + (5 * (y + 2000) >> 2)) % 7) || (m > 11 && m < 3) || (m == 3 && md < 14 - (1 + ((y + 2000) * 5 >> 2)) % 7)) && !_dst) {
-    EEPROM.put(EEPROM_DST, false);
-    --hr;
-  }
+  if ((m == 11 && md >= 7 - (1 + (5 * (y + 2000) >> 2)) % 7) || (m > 11 && m < 3) || (m == 3 && md < 14 - (1 + ((y + 2000) * 5 >> 2)) % 7)) --hr;
 
   itoa(hr, my_time->_hour, 10);
   prefix_shm(my_time->_hour);

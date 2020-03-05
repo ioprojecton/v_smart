@@ -49,7 +49,6 @@ struct _time {
 
 bool m11_new = false;
 
-bool _dst = false;
 bool _complete = false;
 const char *blank = "                    ";
 unsigned char eeprom_address = 0;
@@ -81,7 +80,6 @@ bool esp_flag = false;
 //////
 void setup() {
   EEPROM.get(EEPROM_zone, current_zone);
-  EEPROM.get(EEPROM_DST, _dst);
   Serial1.begin(9600);
   
 #if DEBUG
