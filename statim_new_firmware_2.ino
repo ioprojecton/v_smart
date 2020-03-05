@@ -20,21 +20,20 @@ unsigned long current_time;
 
 void setup()
 {
-  PORTD |= (1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5) | (1 << PD6) | (1 << PD7);
   DDRB |= (1 << DDB3) | (1 << DDB4);
-  DDRB &=~(1<<DDB5);
+  DDRB &= ~(1 << DDB5);
+  PORTD |= (1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5) | (1 << PD6) | (1 << PD7);
+  PORTB |= (1 << PB0) | (1 << PB1) | (1 << PB2);
   PORTB &= ~(1 << PB5);
 
   UBRR0L = 7;
-  UCSR0A|=(1<<U2X0);
-  UCSR0B = (1 << TXEN0)|(1<<UDRIE0);
+  UCSR0A |= (1 << U2X0);
+  UCSR0B = (1 << TXEN0) | (1 << UDRIE0);
   sei();
 }
 
 void loop()
 {
-
-
   NOT_BUSY();
 
   READY_TO_RECEIVE();
@@ -49,9 +48,7 @@ void loop()
 
   for (unsigned char _position = 0, b = DataPin1; _position < 7 && b <= Datapin8; Char |= (digitalRead(b++) << _position++));
 
-  if ((millis() - current_time) > 300) {
-    UDR0 = '\n';
-  }
+  if ((millis() - current_time) > 300) UDR0 = '\n';
 
   UDR0 = Char;
 
@@ -60,5 +57,5 @@ void loop()
   _delay_us(100);
 }
 
-ISR(USART_UDRE_VECT){
+ISR(USART_UDRE_VECT) {
 }
