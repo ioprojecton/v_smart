@@ -57,8 +57,6 @@ void get_time(struct _time *my_time) {
 
   if ((m == 3 && md >= 14 - (1 + ((y + 2000) * 5 >> 2)) % 7) || (m > 3 && m < 11) || (m == 11 && md < 7 - (1 + (5 * (y + 2000) >> 2)) % 7)) ++hr;
 
-  if ((m == 11 && md >= 7 - (1 + (5 * (y + 2000) >> 2)) % 7) || (m > 11 && m < 3) || (m == 3 && md < 14 - (1 + ((y + 2000) * 5 >> 2)) % 7)) --hr;
-
   itoa(hr, my_time->_hour, 10);
   prefix_shm(my_time->_hour);
 
