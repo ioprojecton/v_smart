@@ -20,13 +20,13 @@ unsigned long current_time;
 
 void setup()
 {
-  DDRD = 0;
-  DDRB = 0;
   PORTD |= (1 << PD2) | (1 << PD3) | (1 << PD4) | (1 << PD5) | (1 << PD6) | (1 << PD7);
   DDRB |= (1 << DDB3) | (1 << DDB4);
+  DDRB &=~(1<<DDB5);
   PORTB &= ~(1 << PB5);
 
-  UBRR0L = 25;
+  UBRR0L = 7;
+  UCSR0A|=(1<<U2X0);
   UCSR0B = (1 << TXEN0);
 }
 
